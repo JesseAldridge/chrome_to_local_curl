@@ -5,7 +5,7 @@ with open(os.path.expanduser('~/curl_creds.json')) as f:
     text = f.read()
 host_to_creds = json.loads(text)
 
-chrome_curl = ' '.join('"{}"'.format(s) for s in sys.argv[1:])
+chrome_curl = ' '.join("'{}'".format(s) for s in sys.argv[1:])
 tokens = shlex.split(chrome_curl)
 
 local_domain_name = 'localhost:5001'
@@ -28,7 +28,8 @@ for token in token_iter:
                 break
     elif token in {'--data-binary', '--data', 'd'}:
         next_token = token_iter.next()
-        filtered_tokens += (token, '"{}"'.format(next_token))
+        post_data = json.loads(next_token)
+        filtered_tokens += (token, "'{}'".format(json.dumps(post_data)))
     elif token == '--compressed':
         continue
     else:
