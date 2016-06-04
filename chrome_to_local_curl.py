@@ -10,7 +10,7 @@ token_iter = iter(tokens)
 filtered_tokens = []
 for token in token_iter:
     if token.startswith('http'):
-        filtered_tokens.append(local_domain_name)
+        filtered_tokens.append(re.sub(r'https?\://.+?/', local_domain_name + '/', token))
     elif token == '-H':
         next_token = token_iter.next()
         for regex in (r'(^Content-Type\:)', r'(^Accept\:)'):
