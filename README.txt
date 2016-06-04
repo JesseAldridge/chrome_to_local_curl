@@ -2,4 +2,4 @@ $ python chrome_to_local_curl.py curl 'http://a.fake.domain.com/a/fake/endpoint'
 
 Output:
 
-curl localhost:5001/a/fake/endpoint -X PUT -H "Content-Type: application/json" -H "Accept: application/json, text/javascript, */*; q=0.01" --data-binary "{foo:bar,baz:[64]}"
+curl localhost:5001/a/fake/endpoint --user foouser:fakepass -X PUT -H "Content-Type: application/json" -H "Accept: application/json, text/javascript, */*; q=0.01" --data-binary "{foo:bar,baz:[64]}"

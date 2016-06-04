@@ -1,0 +1,10 @@
+{
+    "a.fake.domain.com": {
+        "username": "foouser",
+        "password": "fakepass"
+    },
+    "foo.com": {
+        "username": "baruser",
+        "password": "otherfakepass"
+    }
+}

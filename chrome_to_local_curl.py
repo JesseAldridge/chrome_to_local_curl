@@ -1,7 +1,9 @@
 #!/usr/bin/python
-import shlex, sys, re
+import shlex, sys, re, json, os
 
-import secrets
+with open(os.path.expanduser('~/curl_creds.json')) as f:
+    text = f.read()
+host_to_creds = json.loads(text)
 
 chrome_curl = ' '.join('"{}"'.format(s) for s in sys.argv[1:])
 tokens = shlex.split(chrome_curl)
@@ -16,7 +18,7 @@ for token in token_iter:
         domain_str = domain_match.group(1)
         host_name = re.search(r'https?\://(.+?)$', domain_str).group(1)
         filtered_tokens.append(token.replace(domain_str, 'localhost:5001'))
-        creds = secrets.creds[host_name]
+        creds = host_to_creds[host_name]
         filtered_tokens += ['--user', ':'.join((creds['username'], creds['password']))]
     elif token == '-H':
         next_token = token_iter.next()
