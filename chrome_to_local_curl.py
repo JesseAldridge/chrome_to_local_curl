@@ -26,7 +26,7 @@ for token in token_iter:
             if re.search(regex, next_token):
                 filtered_tokens += (token, '"{}"'.format(next_token))
                 break
-    elif token in {'--data-binary', '--data', 'd'}:
+    elif token in {'--data-binary', '--data', '-d'}:
         next_token = token_iter.next()
         post_data = json.loads(next_token)
         filtered_tokens += (token, "'{}'".format(json.dumps(post_data)))
