@@ -5,7 +5,14 @@ with open(os.path.expanduser('~/curl_creds.json')) as f:
     text = f.read()
 host_to_creds = json.loads(text)
 
-chrome_curl = ' '.join("'{}'".format(s) for s in sys.argv[1:])
+
+# Get rid of formatting issues caused by YouTrack converting pasted curls to utf8.
+# \xe2\x80\x8b == ZERO WIDTH SPACE
+# \xe2\x80\x93 == EN DASH
+params = [
+    s.replace('\xe2\x80\x8b', ' ').replace('\xe2\x80\x93', '--')
+    for s in sys.argv[1:]]
+chrome_curl = ' '.join("'{}'".format(s) for s in params)
 tokens = shlex.split(chrome_curl)
 
 local_domain_name = 'localhost:5001'
