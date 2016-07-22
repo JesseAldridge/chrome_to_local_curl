@@ -27,16 +27,12 @@ for token in token_iter:
         filtered_tokens.append("'{}'".format(token.replace(domain_str, local_domain_name)))
         creds = host_to_creds[host_name]
         filtered_tokens += ['--user', ':'.join((creds['username'], creds['password']))]
-    elif token == '-H':
-        next_token = token_iter.next()
-        for regex in (r'(^Content-Type\:)', r'(^Accept\:)'):
-            if re.search(regex, next_token):
-                filtered_tokens += (token, '"{}"'.format(next_token))
-                break
     elif token in {'--data-binary', '--data', '-d'}:
         next_token = token_iter.next()
         post_data = json.loads(next_token)
         filtered_tokens += (token, "'{}'".format(json.dumps(post_data)))
+    elif ' ' in token:
+        filtered_tokens += ("'{}'".format(token),)
     elif token == '--compressed':
         continue
     else:
