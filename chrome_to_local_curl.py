@@ -32,8 +32,12 @@ for token in token_iter:
         filtered_tokens += ['--user', user]
     elif token in {'--data-binary', '--data', '-d'}:
         next_token = token_iter.next()
-        post_data = json.loads(next_token)
-        filtered_tokens += (token, "'{}'".format(json.dumps(post_data)))
+        try:
+            post_data = json.loads(next_token)
+        except ValueError:
+            filtered_tokens += (token, next_token)
+        else:
+            filtered_tokens += (token, "'{}'".format(json.dumps(post_data)))
     elif ' ' in token:
         filtered_tokens += ("'{}'".format(token),)
     elif token == '--compressed':
